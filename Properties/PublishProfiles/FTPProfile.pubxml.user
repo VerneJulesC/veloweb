@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA0bvrOegWv0uIwwpwO1ZJywAAAAACAAAAAAAQZgAAAAEAACAAAAAOEGiivwYA9PK64KnvniQ+kiLbv8pZBpq3xJtRTxhWbwAAAAAOgAAAAAIAACAAAAByeoeEZwz4pfWbP/Bg2Aa3kxeLymZIO90+v2kF7esZnCAAAAAGRnCH0dvjyOQyRWMlTz98KzUbTaFsC+KNziEOshgFA0AAAADqcjIMDNVPiEOqWC6IHOy1lGAbrm1tCB9U4kytLf2AeNMR0Z4evWA1mHS0/MKCknuDRVblRe3OcWSFzaEkuZTh</EncryptedPassword>
+    <_PublishTargetUrl>ftp://3.25.216.70/veloweb</_PublishTargetUrl>
+    <History>True|2023-07-13T18:00:25.7813766Z;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="appsettings.Development.json">
+      <publishTime>07/14/2023 01:21:16</publishTime>
+    </File>
+    <File Include="appsettings.json">
+      <publishTime>07/14/2023 01:53:49</publishTime>
+    </File>
+    <File Include="Microsoft.OpenApi.dll">
+      <publishTime>08/30/2020 04:14:12</publishTime>
+    </File>
+    <File Include="Newtonsoft.Json.dll">
+      <publishTime>03/08/2023 15:09:54</publishTime>
+    </File>
+    <File Include="runtimes/unix/lib/netcoreapp2.1/System.Data.SqlClient.dll">
+      <publishTime>10/18/2022 07:26:02</publishTime>
+    </File>
+    <File Include="runtimes/win-arm64/native/sni.dll">
+      <publishTime>07/12/2017 19:24:24</publishTime>
+    </File>
+    <File Include="runtimes/win-x64/native/sni.dll">
+      <publishTime>07/12/2017 19:24:22</publishTime>
+    </File>
+    <File Include="runtimes/win-x86/native/sni.dll">
+      <publishTime>07/12/2017 19:24:22</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netcoreapp2.1/System.Data.SqlClient.dll">
+      <publishTime>10/18/2022 07:26:08</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.Swagger.dll">
+      <publishTime>10/16/2021 20:54:10</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerGen.dll">
+      <publishTime>10/16/2021 20:54:36</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerUI.dll">
+      <publishTime>10/16/2021 20:54:30</publishTime>
+    </File>
+    <File Include="System.Data.SqlClient.dll">
+      <publishTime>10/18/2022 07:16:04</publishTime>
+    </File>
+    <File Include="veloweb.deps.json">
+      <publishTime>07/14/2023 01:59:12</publishTime>
+    </File>
+    <File Include="veloweb.dll">
+      <publishTime>07/14/2023 01:59:11</publishTime>
+    </File>
+    <File Include="veloweb.exe">
+      <publishTime>07/14/2023 01:59:11</publishTime>
+    </File>
+    <File Include="veloweb.pdb">
+      <publishTime>07/14/2023 01:59:11</publishTime>
+    </File>
+    <File Include="veloweb.runtimeconfig.json">
+      <publishTime>07/14/2023 01:59:12</publishTime>
+    </File>
+    <File Include="web.config">
+      <publishTime>07/14/2023 01:59:16</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
