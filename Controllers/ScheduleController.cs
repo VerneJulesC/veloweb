@@ -38,8 +38,10 @@ namespace veloapp.Controllers
                     Schedule schedule = new Schedule();
                     if (dt.Rows[i] is not null)
                     {
+                        schedule.sched_docid = Convert.ToString(dt.Rows[i]["sched_docid"]);
                         schedule.sched_id = Convert.ToInt32(dt.Rows[i]["sched_id"]);
                         schedule.sched_date = Convert.ToDateTime(dt.Rows[i]["sched_date"]);
+                        schedule.driver_id = Convert.ToInt32(dt.Rows[i]["driver_id"]);
                         schedule.patient_id = Convert.ToInt32(dt.Rows[i]["patient_id"]);
                         schedule.patient_name = Convert.ToString(dt.Rows[i]["patient_name"]);
                         schedule.sched_type = Convert.ToString(dt.Rows[i]["sched_type"]);
@@ -89,8 +91,10 @@ namespace veloapp.Controllers
                     Schedule schedule = new Schedule();
                     if (dt.Rows[i] is not null)
                     {
+                        schedule.sched_docid = Convert.ToString(dt.Rows[i]["sched_docid"]);
                         schedule.sched_id = Convert.ToInt32(dt.Rows[i]["sched_id"]);
                         schedule.sched_date = Convert.ToDateTime(dt.Rows[i]["sched_date"]);
+                        schedule.driver_id = Convert.ToInt32(dt.Rows[i]["driver_id"]);
                         schedule.patient_id = Convert.ToInt32(dt.Rows[i]["patient_id"]);
                         schedule.patient_name = Convert.ToString(dt.Rows[i]["patient_name"]);
                         schedule.sched_type = Convert.ToString(dt.Rows[i]["sched_type"]);
@@ -138,9 +142,21 @@ namespace veloapp.Controllers
                 });
                 cmd.Parameters.Add(new SqlParameter
                 {
+                    ParameterName = "@sched_docid",
+                    Value = value.sched_docid,
+                    SqlDbType = SqlDbType.NVarChar
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
                     ParameterName = "@sched_date",
                     Value = value.sched_date,
                     SqlDbType = SqlDbType.DateTime
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@driver_id",
+                    Value = value.driver_id,
+                    SqlDbType = SqlDbType.Int
                 });
                 cmd.Parameters.Add(new SqlParameter
                 {
@@ -196,7 +212,9 @@ namespace veloapp.Controllers
                     if (dt.Rows[i] is not null)
                     {
                         schedule.sched_id = Convert.ToInt32(dt.Rows[i]["sched_id"]);
+                        schedule.sched_docid = Convert.ToString(dt.Rows[i]["sched_docid"]);
                         schedule.sched_date = Convert.ToDateTime(dt.Rows[i]["sched_date"]);
+                        schedule.driver_id = Convert.ToInt32(dt.Rows[i]["driver_id"]);
                         schedule.patient_id = Convert.ToInt32(dt.Rows[i]["patient_id"]);
                         schedule.patient_name = Convert.ToString(dt.Rows[i]["patient_name"]);
                         schedule.sched_type = Convert.ToString(dt.Rows[i]["sched_type"]);
@@ -236,10 +254,21 @@ namespace veloapp.Controllers
             cmd.CommandType = CommandType.StoredProcedure;
             if (value is not null)
             {
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@sched_docid",
+                    Value = value.sched_docid,
+                    SqlDbType = SqlDbType.NVarChar
+                });
                 cmd.Parameters.Add(new SqlParameter{
                     ParameterName = "@sched_date",
                     Value = value.sched_date,
                     SqlDbType = SqlDbType.DateTime
+                });
+                cmd.Parameters.Add(new SqlParameter{
+                    ParameterName = "@driver_id",
+                    Value = value.driver_id,
+                    SqlDbType = SqlDbType.Int
                 });
 	            cmd.Parameters.Add(new SqlParameter{
                     ParameterName = "@patient_id",

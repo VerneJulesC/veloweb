@@ -36,9 +36,10 @@ namespace veloapp.Models
         public string[] pk { get; set; }
         public string[] colsForUpdate { get; set; }
         public int sched_id { get; set; }
+        public string? sched_docid { get; set; }
         public DateTime? sched_date { get; set; }
+        public int? driver_id { get; set; }
         public int? patient_id { get; set; }
-
         public string? patient_name { get; set; }
         public string? sched_type { get; set; }
         public string? location_desc { get; set; }
