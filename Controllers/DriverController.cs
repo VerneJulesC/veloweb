@@ -23,7 +23,8 @@ namespace veloapp.Controllers
         [HttpGet]
         public string Get()
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("DriversList", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -67,7 +68,8 @@ namespace veloapp.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM driver where driver_id = @id", con);
             da.SelectCommand.Parameters.Add(new SqlParameter
             {
@@ -117,7 +119,8 @@ namespace veloapp.Controllers
         public string Post(int id, [FromBody] DriverAddRequest value)
         {
             Driver doc = new Driver();
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("UpdateDriver", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -207,7 +210,8 @@ namespace veloapp.Controllers
         public string Post([FromBody] DriverAddRequest value)
         {
             Driver doc = new Driver();
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("AddDriver", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();

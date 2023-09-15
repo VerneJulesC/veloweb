@@ -24,7 +24,8 @@ namespace veloapp.Controllers
         [HttpGet]
         public string Get()
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("FacilitiesList", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -75,7 +76,8 @@ namespace veloapp.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM facility where facility_id = @id", con);
             da.SelectCommand.Parameters.Add(new SqlParameter
             {
@@ -131,7 +133,8 @@ namespace veloapp.Controllers
         public string Post(int id, [FromBody] FacilityAddRequest value)
         {
             Facility fac = new Facility();
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("UpdateFacility", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -275,7 +278,8 @@ namespace veloapp.Controllers
         public string Post([FromBody] FacilityAddRequest value)
         {
             Facility fac = new Facility();
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("AddFacility", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();

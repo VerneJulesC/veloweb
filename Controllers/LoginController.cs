@@ -82,7 +82,8 @@ namespace veloapp.Controllers
         [HttpPost()]
         public string Post([FromBody] LoginRequest value)
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("VerifyLogin", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();

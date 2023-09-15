@@ -24,7 +24,8 @@ namespace veloapp.Controllers
         [HttpGet]
         public string Get()
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM velo_role", con);
             DataTable dt = new DataTable();
             da.Fill(dt);
@@ -60,7 +61,8 @@ namespace veloapp.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM velo_role where user_id = @id", con);
             da.SelectCommand.Parameters.Add(new SqlParameter
             {
@@ -103,7 +105,8 @@ namespace veloapp.Controllers
         public string Post([FromBody] RoleAddRequest value)
 
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("UpdateRoles", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();

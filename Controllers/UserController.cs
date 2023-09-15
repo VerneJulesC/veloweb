@@ -25,7 +25,8 @@ namespace veloservices.Controllers
         [HttpGet]
         public string Get()
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("UsersList", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -70,7 +71,8 @@ namespace veloservices.Controllers
         [HttpGet("{uname}")]
         public string Get(string uname)
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("getUserByUname", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -115,7 +117,8 @@ namespace veloservices.Controllers
         [HttpPost]
         public string Post([FromBody] UserAddRequest value)
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("CreateUser", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -154,7 +157,56 @@ namespace veloservices.Controllers
             else
             {
                 response.StatusCode = 100;
-                response.ErrorMessage = "Failed to add patient";
+                response.ErrorMessage = "Failed to add user";
+                return JsonConvert.SerializeObject(response);
+            }
+        }
+
+        // POST api/<ValuesController>
+        [HttpPost("{id}")]
+        public string Post(int id, [FromBody] UserAddRequest value)
+        {
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
+            SqlCommand cmd = new SqlCommand("UpdatePassword", con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            Response response = new Response();
+            string? returnval = null;
+            cmd.CommandType = CommandType.StoredProcedure;
+            if (value is not null)
+            {
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@user_id",
+                    Value = id,
+                    SqlDbType = SqlDbType.Int
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@username",
+                    Value = value.username,
+                    SqlDbType = SqlDbType.NVarChar
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@password",
+                    Value = value.password,
+                    SqlDbType = SqlDbType.NVarChar
+                });
+            }
+            con.Open();
+            cmd.ExecuteNonQuery();
+            returnval = Convert.ToString(cmd.Parameters["@user_id"].Value);
+            con.Close();
+            if (returnval is not null)
+            {
+                return JsonConvert.SerializeObject(returnval);
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.ErrorMessage = "Failed to update user";
                 return JsonConvert.SerializeObject(response);
             }
         }

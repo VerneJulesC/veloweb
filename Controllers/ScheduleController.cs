@@ -23,7 +23,8 @@ namespace veloapp.Controllers
         [HttpGet]
         public string Get()
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("SchedulesList", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -72,8 +73,31 @@ namespace veloapp.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
-            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM schedule where sched_id = @id", con);
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
+            SqlDataAdapter da = new SqlDataAdapter(
+                "SELECT" +
+                "  s.sched_docid, " +
+                "  s.sched_id, " +
+                "  s.sched_date, " +
+                "  s.driver_id, " +
+                "  s.patient_id, " +
+                "  CONCAT( " +
+                "    p.patient_fname, ' ', p.patient_lname " +
+                "  ) patient_name, " +
+                "  s.sched_type, " +
+                "  s.location_desc, " +
+                "  s.location_coord, " +
+                "  s.destination_desc, " +
+                "  s.destination_coord, " +
+                "  s.status, " +
+                "  s.last_modified " +
+                " FROM  " +
+                "  schedule s " +
+                "  LEFT OUTER JOIN patient p ON s.patient_id = p.patient_id " +
+                " WHERE  " +
+                "  s.sched_id = @id",
+            con);
             da.SelectCommand.Parameters.Add(new SqlParameter
             {
                 ParameterName = "@id",
@@ -126,7 +150,8 @@ namespace veloapp.Controllers
         public string Post(int id, [FromBody] ScheduleAddRequest value)
         {
             Schedule sched = new Schedule();
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("UpdateSchedule", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -246,7 +271,8 @@ namespace veloapp.Controllers
         public string Post([FromBody] ScheduleAddRequest value)
         {
             Schedule sched = new Schedule();
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VeloAppCon").ToString());
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("AddSchedule", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             Response response = new Response();
