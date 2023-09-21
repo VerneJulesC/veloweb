@@ -81,6 +81,9 @@ namespace veloapp.Controllers
                 "  s.sched_id, " +
                 "  s.sched_date, " +
                 "  s.driver_id, " +
+                "  CONCAT( " +
+                "    d.driver_fname, ' ', d.driver_lname " +
+                "  ) driver_name, " +
                 "  s.patient_id, " +
                 "  CONCAT( " +
                 "    p.patient_fname, ' ', p.patient_lname " +
@@ -95,6 +98,7 @@ namespace veloapp.Controllers
                 " FROM  " +
                 "  schedule s " +
                 "  LEFT OUTER JOIN patient p ON s.patient_id = p.patient_id " +
+                "  LEFT OUTER JOIN driver d ON s.driver_id = d.driver_id " +
                 " WHERE  " +
                 "  s.sched_id = @id",
             con);
@@ -119,6 +123,7 @@ namespace veloapp.Controllers
                         schedule.sched_id = Convert.ToInt32(dt.Rows[i]["sched_id"]);
                         schedule.sched_date = Convert.ToDateTime(dt.Rows[i]["sched_date"]);
                         schedule.driver_id = Convert.ToInt32(dt.Rows[i]["driver_id"]);
+                        schedule.driver_name = Convert.ToString(dt.Rows[i]["driver_name"]);
                         schedule.patient_id = Convert.ToInt32(dt.Rows[i]["patient_id"]);
                         schedule.patient_name = Convert.ToString(dt.Rows[i]["patient_name"]);
                         schedule.sched_type = Convert.ToString(dt.Rows[i]["sched_type"]);

@@ -39,6 +39,7 @@ namespace veloapp.Models
         public string? sched_docid { get; set; }
         public DateTime? sched_date { get; set; }
         public int? driver_id { get; set; }
+        public string? driver_name { get; set; }
         public int? patient_id { get; set; }
         public string? patient_name { get; set; }
         public string? sched_type { get; set; }

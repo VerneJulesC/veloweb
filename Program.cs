@@ -8,7 +8,8 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder
-                           .WithOrigins("http://3.25.216.70/")
+                           .WithOrigins("http://3.25.216.70/",
+                           "http://3.25.216.70:8080")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials();
