@@ -40,6 +40,7 @@ namespace veloapp.Models
         public DateTime? sched_date { get; set; }
         public int? driver_id { get; set; }
         public string? driver_name { get; set; }
+        public string? driver_phone { get; set; }
         public int? patient_id { get; set; }
         public string? patient_name { get; set; }
         public string? sched_type { get; set; }
@@ -49,6 +50,12 @@ namespace veloapp.Models
         public string? destination_coord { get; set; }
         public string? status { get; set; }
         public DateTime? last_modified { get; set; }
+        public string? return_trip { get; set; }
+        public string? return_docid { get; set; }
+        public DateTime? return_date { get; set; }
+        public int? return_driver_id { get; set; }
+        public string? return_driver_name { get; set; }
+        public string? return_status { get; set; }
         public string? rowclass { get; set; }
         public bool filtered { get; set; }
     }

@@ -51,6 +51,9 @@ namespace veloapp.Controllers
                         schedule.destination_desc = Convert.ToString(dt.Rows[i]["destination_desc"]);
                         schedule.destination_coord = Convert.ToString(dt.Rows[i]["destination_coord"]);
                         schedule.status = Convert.ToString(dt.Rows[i]["status"]);
+                        schedule.return_trip = Convert.ToString(dt.Rows[i]["return_trip"]);
+                        schedule.return_date = Convert.ToDateTime(dt.Rows[i]["return_date"]);
+                        schedule.return_status = Convert.ToString(dt.Rows[i]["return_status"]);
                         schedule.last_modified = Convert.ToDateTime(dt.Rows[i]["last_modified"]);
                         schedules.Add(schedule);
                     }
@@ -84,16 +87,22 @@ namespace veloapp.Controllers
                 "  CONCAT( " +
                 "    d.driver_fname, ' ', d.driver_lname " +
                 "  ) driver_name, " +
+                "  d.driver_phone, " +
                 "  s.patient_id, " +
                 "  CONCAT( " +
                 "    p.patient_fname, ' ', p.patient_lname " +
                 "  ) patient_name, " +
                 "  s.sched_type, " +
-                "  s.location_desc, " +
-                "  s.location_coord, " +
-                "  s.destination_desc, " +
-                "  s.destination_coord, " +
+                "  ISNULL(p.patient_address, s.location_desc) location_desc, " +
+                "  ISNULL(p.patient_coordinates, s.location_coord) location_coord, " +
+                "  ISNULL((SELECT TOP 1 facility_address FROM facility), s.destination_desc) destination_desc, " +
+                "  ISNULL((SELECT TOP 1 facility_coordinates FROM facility), s.destination_coord) destination_coord, " +
                 "  s.status, " +
+                "  s.return_trip, " +
+                "  s.return_docid, " +
+                "  ISNULL(s.return_date, DATEADD(hh, 1, s.sched_date)) return_date, " +
+                "  ISNULL(s.return_driver_id, -1) return_driver_id, " +
+                "  ISNULL(s.return_status, 'NEW') return_status, " +
                 "  s.last_modified " +
                 " FROM  " +
                 "  schedule s " +
@@ -124,6 +133,7 @@ namespace veloapp.Controllers
                         schedule.sched_date = Convert.ToDateTime(dt.Rows[i]["sched_date"]);
                         schedule.driver_id = Convert.ToInt32(dt.Rows[i]["driver_id"]);
                         schedule.driver_name = Convert.ToString(dt.Rows[i]["driver_name"]);
+                        schedule.driver_phone = Convert.ToString(dt.Rows[i]["driver_phone"]);
                         schedule.patient_id = Convert.ToInt32(dt.Rows[i]["patient_id"]);
                         schedule.patient_name = Convert.ToString(dt.Rows[i]["patient_name"]);
                         schedule.sched_type = Convert.ToString(dt.Rows[i]["sched_type"]);
@@ -132,6 +142,12 @@ namespace veloapp.Controllers
                         schedule.destination_desc = Convert.ToString(dt.Rows[i]["destination_desc"]);
                         schedule.destination_coord = Convert.ToString(dt.Rows[i]["destination_coord"]);
                         schedule.status = Convert.ToString(dt.Rows[i]["status"]);
+                        schedule.return_trip = Convert.ToString(dt.Rows[i]["return_trip"]);
+                        schedule.return_docid = Convert.ToString(dt.Rows[i]["return_docid"]);
+                        schedule.return_date = Convert.ToDateTime(dt.Rows[i]["return_date"]);
+                        schedule.return_driver_id = Convert.ToInt32(dt.Rows[i]["return_driver_id"]);
+                        schedule.return_driver_name = Convert.ToString(dt.Rows[i]["return_driver_name"]);
+                        schedule.return_status = Convert.ToString(dt.Rows[i]["return_status"]);
                         schedule.last_modified = Convert.ToDateTime(dt.Rows[i]["last_modified"]);
                         schedules.Add(schedule);
                     }
@@ -230,6 +246,36 @@ namespace veloapp.Controllers
                     Value = value.status,
                     SqlDbType = SqlDbType.NVarChar
                 });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@return_trip",
+                    Value = value.return_trip,
+                    SqlDbType = SqlDbType.NVarChar
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@return_docid",
+                    Value = value.return_docid,
+                    SqlDbType = SqlDbType.NVarChar
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@return_date",
+                    Value = value.return_date,
+                    SqlDbType = SqlDbType.DateTime
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@return_driver_id",
+                    Value = value.return_driver_id,
+                    SqlDbType = SqlDbType.Int
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@return_status",
+                    Value = value.return_status,
+                    SqlDbType = SqlDbType.NVarChar
+                });
             }
             da.Fill(dt);
             List<Schedule> schedules = new List<Schedule>();
@@ -245,6 +291,7 @@ namespace veloapp.Controllers
                         schedule.sched_docid = Convert.ToString(dt.Rows[i]["sched_docid"]);
                         schedule.sched_date = Convert.ToDateTime(dt.Rows[i]["sched_date"]);
                         schedule.driver_id = Convert.ToInt32(dt.Rows[i]["driver_id"]);
+                        schedule.driver_name = Convert.ToString(dt.Rows[i]["driver_name"]);
                         schedule.patient_id = Convert.ToInt32(dt.Rows[i]["patient_id"]);
                         schedule.patient_name = Convert.ToString(dt.Rows[i]["patient_name"]);
                         schedule.sched_type = Convert.ToString(dt.Rows[i]["sched_type"]);
@@ -253,6 +300,12 @@ namespace veloapp.Controllers
                         schedule.destination_desc = Convert.ToString(dt.Rows[i]["destination_desc"]);
                         schedule.destination_coord = Convert.ToString(dt.Rows[i]["destination_coord"]);
                         schedule.status = Convert.ToString(dt.Rows[i]["status"]);
+                        schedule.return_trip = Convert.ToString(dt.Rows[i]["return_trip"]);
+                        schedule.return_docid = Convert.ToString(dt.Rows[i]["return_docid"]);
+                        schedule.return_date = Convert.ToDateTime(dt.Rows[i]["return_date"]);
+                        schedule.return_driver_id = Convert.ToInt32(dt.Rows[i]["return_driver_id"]);
+                        schedule.return_driver_name = Convert.ToString(dt.Rows[i]["return_driver_name"]);
+                        schedule.return_status = Convert.ToString(dt.Rows[i]["return_status"]);
                         schedule.last_modified = Convert.ToDateTime(dt.Rows[i]["last_modified"]);
                         schedules.Add(schedule);
                     }
@@ -342,6 +395,36 @@ namespace veloapp.Controllers
                     ParameterName = "@sched_id",
                     SqlDbType = SqlDbType.Int,
                     Direction = ParameterDirection.Output
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@return_trip",
+                    Value = value.return_trip,
+                    SqlDbType = SqlDbType.NVarChar
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@return_docid",
+                    Value = value.return_docid,
+                    SqlDbType = SqlDbType.NVarChar
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@return_date",
+                    Value = value.return_date,
+                    SqlDbType = SqlDbType.DateTime
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@return_driver_id",
+                    Value = value.return_driver_id,
+                    SqlDbType = SqlDbType.Int
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@return_status",
+                    Value = value.return_status,
+                    SqlDbType = SqlDbType.NVarChar
                 });
             }
             con.Open();
