@@ -102,12 +102,16 @@ namespace veloapp.Controllers
                 "  s.return_docid, " +
                 "  ISNULL(s.return_date, DATEADD(hh, 1, s.sched_date)) return_date, " +
                 "  ISNULL(s.return_driver_id, -1) return_driver_id, " +
+                "  CONCAT( " +
+                "    d2.driver_fname, ' ', d2.driver_lname " +
+                "  ) return_driver_name, " +
                 "  ISNULL(s.return_status, 'NEW') return_status, " +
                 "  s.last_modified " +
                 " FROM  " +
                 "  schedule s " +
                 "  LEFT OUTER JOIN patient p ON s.patient_id = p.patient_id " +
                 "  LEFT OUTER JOIN driver d ON s.driver_id = d.driver_id " +
+                "  LEFT OUTER JOIN driver d2 ON s.return_driver_id = d2.driver_id " +
                 " WHERE  " +
                 "  s.sched_id = @id",
             con);
