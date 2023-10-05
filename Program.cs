@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Cors;
-
 var policyName = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
