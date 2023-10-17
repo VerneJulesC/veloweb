@@ -9,7 +9,7 @@ using veloservices.Models;
 
 namespace veloapp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/{dbname}/[controller]")]
     [ApiController]
     public class ScheduleController : ControllerBase
     {
@@ -21,9 +21,9 @@ namespace veloapp.Controllers
         }
         // GET: api/<ScheduleController>
         [HttpGet]
-        public string Get()
+        public string Get(string dbname)
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("SchedulesList", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -74,9 +74,9 @@ namespace veloapp.Controllers
 
         // GET api/<ScheduleController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public string Get(string dbname, int id)
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlDataAdapter da = new SqlDataAdapter(
                 "SELECT" +
@@ -172,10 +172,10 @@ namespace veloapp.Controllers
 
         // POST api/<ScheduleController>/5
         [HttpPost("{id}")]
-        public string Post(int id, [FromBody] ScheduleAddRequest value)
+        public string Post(string dbname, int id, [FromBody] ScheduleAddRequest value)
         {
             Schedule sched = new Schedule();
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("UpdateSchedule", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -330,10 +330,10 @@ namespace veloapp.Controllers
         // POST api/<ScheduleController>
         // Add Schedule
         [HttpPost]
-        public string Post([FromBody] ScheduleAddRequest value)
+        public string Post(string dbname, [FromBody] ScheduleAddRequest value)
         {
             Schedule sched = new Schedule();
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("AddSchedule", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);

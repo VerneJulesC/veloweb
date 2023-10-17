@@ -10,7 +10,7 @@ using veloservices.Models;
 
 namespace veloservices.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/{dbname}/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -23,9 +23,9 @@ namespace veloservices.Controllers
 
         // GET: api/<ValuesController>
         [HttpGet]
-        public string Get()
+        public string Get(string dbname)
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("UsersList", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -69,9 +69,9 @@ namespace veloservices.Controllers
 
         // GET api/<ValuesController>/5
         [HttpGet("{uname}")]
-        public string Get(string uname)
+        public string Get(string dbname, string uname)
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("getUserByUname", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -115,9 +115,9 @@ namespace veloservices.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public string Post([FromBody] UserAddRequest value)
+        public string Post(string dbname, [FromBody] UserAddRequest value)
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("CreateUser", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -164,9 +164,9 @@ namespace veloservices.Controllers
 
         // POST api/<ValuesController>
         [HttpPost("{id}")]
-        public string Post(int id, [FromBody] UserAddRequest value)
+        public string Post(string dbname, int id, [FromBody] UserAddRequest value)
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("UpdatePassword", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);

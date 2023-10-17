@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace veloapp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/{dbname}/[controller]")]
     [ApiController]
     public class DriverController : ControllerBase
     {
@@ -21,9 +21,9 @@ namespace veloapp.Controllers
         }
         // GET: api/<DriverController>
         [HttpGet]
-        public string Get()
+        public string Get(string dbname)
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("DriversList", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -66,9 +66,9 @@ namespace veloapp.Controllers
 
         // GET api/<DriverController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public string Get(string dbname, int id)
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM driver where driver_id = @id", con);
             da.SelectCommand.Parameters.Add(new SqlParameter
@@ -116,10 +116,10 @@ namespace veloapp.Controllers
         // POST api/<DriverController>
         // Update Driver
         [HttpPost("{id}")]
-        public string Post(int id, [FromBody] DriverAddRequest value)
+        public string Post(string dbname, int id, [FromBody] DriverAddRequest value)
         {
             Driver doc = new Driver();
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("UpdateDriver", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -207,10 +207,10 @@ namespace veloapp.Controllers
         // POST api/<DriverController>
         // Add Driver
         [HttpPost]
-        public string Post([FromBody] DriverAddRequest value)
+        public string Post(string dbname, [FromBody] DriverAddRequest value)
         {
             Driver doc = new Driver();
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("AddDriver", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);

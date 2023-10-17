@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace veloapp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/{dbname}/[controller]")]
     [ApiController]
     public class DoctorController : ControllerBase
     {
@@ -21,9 +21,9 @@ namespace veloapp.Controllers
         }
         // GET: api/<DoctorController>
         [HttpGet]
-        public string Get()
+        public string Get(string dbname)
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("DoctorsList", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -75,9 +75,9 @@ namespace veloapp.Controllers
 
         // GET api/<DoctorController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public string Get(string dbname, int id)
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM doctor where doctor_id = @id", con);
             da.SelectCommand.Parameters.Add(new SqlParameter
@@ -134,10 +134,10 @@ namespace veloapp.Controllers
         // POST api/<DoctorController>
         // Update Doctor
         [HttpPost("{id}")]
-        public string Post(int id, [FromBody] DoctorAddRequest value)
+        public string Post(string dbname, int id, [FromBody] DoctorAddRequest value)
         {
             Doctor doc = new Doctor();
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("UpdateDoctor", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -279,10 +279,10 @@ namespace veloapp.Controllers
         // POST api/<DoctorController>
         // Add Doctor
         [HttpPost]
-        public string Post([FromBody] DoctorAddRequest value)
+        public string Post(string dbname, [FromBody] DoctorAddRequest value)
         {
             Doctor doc = new Doctor();
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("AddDoctor", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);

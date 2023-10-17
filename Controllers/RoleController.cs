@@ -10,7 +10,7 @@ using veloservices.Models;
 
 namespace veloapp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/{dbname}/[controller]")]
     [ApiController]
     public class RoleController : ControllerBase
     {
@@ -22,9 +22,9 @@ namespace veloapp.Controllers
         }
         // GET: api/<RoleController>
         [HttpGet]
-        public string Get()
+        public string Get(string dbname)
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM velo_role", con);
             DataTable dt = new DataTable();
@@ -59,9 +59,9 @@ namespace veloapp.Controllers
 
         // GET api/<RoleController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public string Get(string dbname, int id)
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM velo_role where user_id = @id", con);
             da.SelectCommand.Parameters.Add(new SqlParameter
@@ -102,10 +102,10 @@ namespace veloapp.Controllers
 
         // POST api/<RoleController>
         [HttpPost]
-        public string Post([FromBody] RoleAddRequest value)
+        public string Post(string dbname, [FromBody] RoleAddRequest value)
 
         {
-            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("UpdateRoles", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
