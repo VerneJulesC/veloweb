@@ -6,11 +6,11 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder
-                           .WithOrigins("http://3.27.126.96/",
+                           .WithOrigins("http://3.27.126.96",
                            "http://3.27.126.96:8080")
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials();
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials();
                       });
 });
 

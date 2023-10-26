@@ -10,7 +10,7 @@ using veloservices.Models;
 
 namespace veloapp.Controllers
 {
-    [Route("api/{dbname}/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -24,7 +24,7 @@ namespace veloapp.Controllers
         // POST: api/<ValuesController>/<username>
         // checkLogin
         [HttpPost("{uname}")]
-        public string Post(string dbname, string uname, [FromHeader(Name = "Authorization")] string authentication)
+        public string Post(string uname, [FromHeader(Name = "Authorization")] string authentication)
         {
             string[] auth = authentication.Split(' ');
             string? token = null;
@@ -80,9 +80,9 @@ namespace veloapp.Controllers
         // GET: api/<ValuesController>
         // verifyLogin
         [HttpPost]
-        public string Post(string dbname, [FromBody] LoginRequest value)
+        public string Post([FromBody] LoginRequest value)
         {
-            string? constring = (_configuration.GetConnectionString("VeloAppCon")??"velo").Replace("velo", dbname);
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
             SqlConnection con = new SqlConnection(constring);
             SqlCommand cmd = new SqlCommand("VerifyLogin", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
