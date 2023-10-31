@@ -45,9 +45,11 @@ namespace veloapp.Controllers
                         schedule.driver_id = Convert.ToInt32(dt.Rows[i]["driver_id"]);
                         schedule.patient_id = Convert.ToInt32(dt.Rows[i]["patient_id"]);
                         schedule.patient_name = Convert.ToString(dt.Rows[i]["patient_name"]);
+                        schedule.facility_id = Convert.ToInt32(dt.Rows[i]["facility_id"]);
                         schedule.sched_type = Convert.ToString(dt.Rows[i]["sched_type"]);
                         schedule.location_desc = Convert.ToString(dt.Rows[i]["location_desc"]);
                         schedule.location_coord = Convert.ToString(dt.Rows[i]["location_coord"]);
+                        schedule.override_location = Convert.ToString(dt.Rows[i]["override_location"]);
                         schedule.destination_desc = Convert.ToString(dt.Rows[i]["destination_desc"]);
                         schedule.destination_coord = Convert.ToString(dt.Rows[i]["destination_coord"]);
                         schedule.status = Convert.ToString(dt.Rows[i]["status"]);
@@ -92,9 +94,11 @@ namespace veloapp.Controllers
                 "  CONCAT( " +
                 "    p.patient_fname, ' ', p.patient_lname " +
                 "  ) patient_name, " +
+                "  s.facility_id, " +
                 "  s.sched_type, " +
                 "  ISNULL(p.patient_address, s.location_desc) location_desc, " +
                 "  ISNULL(p.patient_coordinates, s.location_coord) location_coord, " +
+                "  s.override_location, " +
                 "  ISNULL((SELECT TOP 1 facility_address FROM facility), s.destination_desc) destination_desc, " +
                 "  ISNULL((SELECT TOP 1 facility_coordinates FROM facility), s.destination_coord) destination_coord, " +
                 "  s.status, " +
@@ -140,9 +144,11 @@ namespace veloapp.Controllers
                         schedule.driver_phone = Convert.ToString(dt.Rows[i]["driver_phone"]);
                         schedule.patient_id = Convert.ToInt32(dt.Rows[i]["patient_id"]);
                         schedule.patient_name = Convert.ToString(dt.Rows[i]["patient_name"]);
+                        schedule.facility_id = Convert.ToInt32(dt.Rows[i]["facility_id"]);
                         schedule.sched_type = Convert.ToString(dt.Rows[i]["sched_type"]);
                         schedule.location_desc = Convert.ToString(dt.Rows[i]["location_desc"]);
                         schedule.location_coord = Convert.ToString(dt.Rows[i]["location_coord"]);
+                        schedule.override_location = Convert.ToString(dt.Rows[i]["override_location"]);
                         schedule.destination_desc = Convert.ToString(dt.Rows[i]["destination_desc"]);
                         schedule.destination_coord = Convert.ToString(dt.Rows[i]["destination_coord"]);
                         schedule.status = Convert.ToString(dt.Rows[i]["status"]);
@@ -216,6 +222,12 @@ namespace veloapp.Controllers
                 });
                 cmd.Parameters.Add(new SqlParameter
                 {
+                    ParameterName = "@facility_id",
+                    Value = value.facility_id,
+                    SqlDbType = SqlDbType.Int
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
                     ParameterName = "@sched_type",
                     Value = value.sched_type,
                     SqlDbType = SqlDbType.NVarChar
@@ -230,6 +242,12 @@ namespace veloapp.Controllers
                 {
                     ParameterName = "@location_coord",
                     Value = (value.location_coord is null) ? DBNull.Value : value.location_coord,
+                    SqlDbType = SqlDbType.NVarChar
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@override_location",
+                    Value = value.override_location,
                     SqlDbType = SqlDbType.NVarChar
                 });
                 cmd.Parameters.Add(new SqlParameter
@@ -298,9 +316,11 @@ namespace veloapp.Controllers
                         schedule.driver_name = Convert.ToString(dt.Rows[i]["driver_name"]);
                         schedule.patient_id = Convert.ToInt32(dt.Rows[i]["patient_id"]);
                         schedule.patient_name = Convert.ToString(dt.Rows[i]["patient_name"]);
+                        schedule.facility_id = Convert.ToInt32(dt.Rows[i]["facility_id"]);
                         schedule.sched_type = Convert.ToString(dt.Rows[i]["sched_type"]);
                         schedule.location_desc = Convert.ToString(dt.Rows[i]["location_desc"]);
                         schedule.location_coord = Convert.ToString(dt.Rows[i]["location_coord"]);
+                        schedule.override_location = Convert.ToString(dt.Rows[i]["override_location"]);
                         schedule.destination_desc = Convert.ToString(dt.Rows[i]["destination_desc"]);
                         schedule.destination_coord = Convert.ToString(dt.Rows[i]["destination_coord"]);
                         schedule.status = Convert.ToString(dt.Rows[i]["status"]);
@@ -361,6 +381,11 @@ namespace veloapp.Controllers
 	            cmd.Parameters.Add(new SqlParameter{
                     ParameterName = "@patient_id",
                     Value = value.patient_id,
+                    SqlDbType = SqlDbType.Int
+                });
+	            cmd.Parameters.Add(new SqlParameter{
+                    ParameterName = "@facility_id",
+                    Value = value.facility_id,
                     SqlDbType = SqlDbType.Int
                 });
 	            cmd.Parameters.Add(new SqlParameter{

@@ -26,6 +26,7 @@ namespace veloservices.Models
         public int user_id { get; set; }
         public string? username { get; set; }
         public string? password { get; set; }
+        public string? dbrole { get; set; }
         public List<string> roles { get; set; }
         public string vlogin { get; set; }
         public string? rowclass { get; set; }

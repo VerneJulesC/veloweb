@@ -14,6 +14,7 @@ namespace veloservices.Models
         public int user_id { get; set; }
         public string? username { get; set; }
         public List<string> roles { get; set; }
+        public string? dbrole { get; set; }
         public string vlogin { get; set; }
         public string token { get; set; }
         public string rtoken { get; set; }

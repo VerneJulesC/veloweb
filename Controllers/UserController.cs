@@ -43,6 +43,69 @@ namespace veloservices.Controllers
                     {
                         vuser.user_id = Convert.ToInt32(dt.Rows[i]["user_id"]);
                         vuser.username = Convert.ToString(dt.Rows[i]["username"]);
+                        vuser.dbrole = Convert.ToString(dt.Rows[i]["dbrole"]);
+                        string? userroles = Convert.ToString(dt.Rows[i]["roles"])??" ";
+                        string[] roles = userroles.Split(',');
+                        if(userroles.Length > 1) {
+                            foreach(string r in roles) {
+                                vuser.roles.Add(r);
+                            }
+                        }
+                        vu.Add(vuser);
+                    }
+                }
+            }
+            /*if (vu.Count > 0)
+            {
+                return JsonConvert.SerializeObject(vu);
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.ErrorMessage = "No data found";
+                return JsonConvert.SerializeObject(response);
+            }*/
+            return JsonConvert.SerializeObject(vu);
+        }
+
+        // GET: api/<ValuesController>
+        [HttpGet("{placeholder}/{dbrole}")]
+        public string Get(string placeholder, string dbrole)
+        {
+            string? constring = _configuration.GetConnectionString("VeloAppCon");
+            SqlConnection con = new SqlConnection(constring);
+            SqlDataAdapter da = new SqlDataAdapter(
+                "SELECT velo_user.user_id, " +
+                    "velo_user.username, " +
+                    "STRING_AGG(velo_role.rolename, ',') " +
+                        "WITHIN GROUP (ORDER BY velo_role.rolename) roles, " +
+                    "velo_user.dbrole " +
+                "FROM dbo.velo_user, dbo.velo_role " +
+                "WHERE velo_user.user_id = velo_role.user_id " +
+                "AND velo_user.dbrole = @dbrole " +
+                "GROUP BY velo_user.user_id, velo_user.username, velo_user.dbrole;",
+                con
+            );
+            da.SelectCommand.Parameters.Add(new SqlParameter
+            {
+                ParameterName = "@dbrole",
+                Value = dbrole,
+                SqlDbType = SqlDbType.NVarChar
+            });
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            List<VeloUser> vu = new List<VeloUser>();
+            Response response = new Response();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    VeloUser vuser = new VeloUser();
+                    if (dt.Rows[i] is not null)
+                    {
+                        vuser.user_id = Convert.ToInt32(dt.Rows[i]["user_id"]);
+                        vuser.username = Convert.ToString(dt.Rows[i]["username"]);
+                        vuser.dbrole = Convert.ToString(dt.Rows[i]["dbrole"]);
                         string? userroles = Convert.ToString(dt.Rows[i]["roles"])??" ";
                         string[] roles = userroles.Split(',');
                         if(userroles.Length > 1) {
@@ -94,6 +157,7 @@ namespace veloservices.Controllers
                     {
                         vuser.user_id = Convert.ToInt32(dt.Rows[i]["user_id"]);
                         vuser.username = Convert.ToString(dt.Rows[i]["username"]);
+                        vuser.dbrole = Convert.ToString(dt.Rows[i]["dbrole"]);
                         vuser.vlogin = Convert.ToString(dt.Rows[i]["vlogin"])??"N";
                         //vuser.password = Convert.ToString(dt.Rows[i]["password"]);
                         vu.Add(vuser);
@@ -137,6 +201,12 @@ namespace veloservices.Controllers
                 {
                     ParameterName = "@password",
                     Value = value.password,
+                    SqlDbType = SqlDbType.NVarChar
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@dbrole",
+                    Value = value.dbrole,
                     SqlDbType = SqlDbType.NVarChar
                 });
                 cmd.Parameters.Add(new SqlParameter
@@ -192,6 +262,12 @@ namespace veloservices.Controllers
                 {
                     ParameterName = "@password",
                     Value = value.password,
+                    SqlDbType = SqlDbType.NVarChar
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@dbrole",
+                    Value = value.dbrole,
                     SqlDbType = SqlDbType.NVarChar
                 });
             }

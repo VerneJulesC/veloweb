@@ -12,9 +12,11 @@ namespace veloapp.Models
                 "sched_id",
                 "sched_date",
                 "patient_id",
+                "facility_id",
                 "sched_type",
                 "location_desc",
                 "location_coord",
+                "override_location",
                 "destination_desc",
                 "destination_coord",
                 "status",
@@ -25,8 +27,10 @@ namespace veloapp.Models
                 "sched_date",
                 "patient_id",
                 "sched_type",
+                "facility_id",
                 "location_desc",
                 "location_coord",
+                "override_location",
                 "destination_desc",
                 "destination_coord",
                 "status"
@@ -43,9 +47,11 @@ namespace veloapp.Models
         public string? driver_phone { get; set; }
         public int? patient_id { get; set; }
         public string? patient_name { get; set; }
+        public int? facility_id { get; set; }
         public string? sched_type { get; set; }
         public string? location_desc { get; set; }
         public string? location_coord { get; set; }
+        public string? override_location { get; set; }
         public string? destination_desc { get; set; }
         public string? destination_coord { get; set; }
         public string? status { get; set; }

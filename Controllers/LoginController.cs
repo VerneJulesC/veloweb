@@ -114,6 +114,7 @@ namespace veloapp.Controllers
                     lr.user_id = Convert.ToInt32(dt.Rows[0]["user_id"]);
                     lr.vlogin = Convert.ToString(dt.Rows[0]["vlogin"]) ?? "N";
                     lr.username = Convert.ToString(dt.Rows[0]["username"]) ?? lr.username;
+                    lr.dbrole = Convert.ToString(dt.Rows[0]["dbrole"]) ?? lr.dbrole;
                     string userroles = Convert.ToString(dt.Rows[0]["roles"]) ?? "";
                     string[] roles = userroles.Split(',');
                     int rnum = 0;
